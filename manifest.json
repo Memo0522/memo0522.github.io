@@ -1,0 +1,54 @@
+{
+    "name": "Aplicación web progresiva",
+    "short_name": "Guillermo Vargas Hernandez",
+    "description": "Práctica de la asignatura de aplicaciones web",
+    "background_color": "#fff",
+    "theme_color": "#FB314F",
+    "orientation": "portrait",
+    "display": "standalone",
+    "start_url": "./index.html?utm_source=web_app_manifest",
+    "scope": "./",
+    "lang": "es-ES",
+    "icons": [
+        {
+            "src": "./img/1024.png",
+            "sizes": "1024x1024"
+        },
+        {
+            "src": "./img/512.png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "./img/384.png",
+            "sizes": "384x384"
+        },
+        {
+            "src": "./img/256.png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "./img/192.png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "./img/128.png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "./img/96.png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "./img/64.png",
+            "sizes": "64x64"
+        },
+        {
+            "src": "./img/32.png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "./img/16.png",
+            "sizes": "16x16"
+        }
+    ]
+}
