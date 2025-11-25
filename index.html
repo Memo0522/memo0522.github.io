@@ -7,22 +7,24 @@
 
     <title>Berserk Fan Page</title>
 
-    <link rel="shortcut icon" type="image/png" href="img/16.png"/>
+    <link rel="shortcut icon" type="image/png" href="img/16.png" />
 
-    <meta name="theme-color" content="#FB314E"/>
+    <meta name="theme-color" content="#FB314E" />
 
-    <!-- PWA y Apple -->
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <link rel="apple-touch-icon" href="img/16.png"/>
-    <link rel="apple-touch-startup-image" href="img/16.png"/>
+    <!-- PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="img/16.png" />
 
-    <link rel="manifest" href="manifest.json"/>      
+    <link rel="manifest" href="manifest.json" />
 
-    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="main.js"></script>
+
+    <!-- SOLO main.js con ES MODULE -->
+    <script type="module" src="main.js"></script>
+
 </head>
 
 
@@ -144,6 +146,64 @@
             </div>
         </div>
     </div> <!-- Finaliza seccion de videos-->
+
+<div id="crud">
+        <div class="container">
+            <h2 class="subheader">CRUD – Usuarios</h2>
+
+            <!-- FORMULARIO -->
+            <form id="userForm">
+                <input type="hidden" id="id">
+
+                <label>Nombre:</label>
+                <input type="text" id="nombre" required>
+
+                <label>Correo:</label>
+                <input type="email" id="correo" required>
+
+                <label>Teléfono:</label>
+                <input type="number" id="telefono" required>
+
+                <label>Edad:</label>
+                <input type="number" id="edad" required>
+
+                <label>Dirección:</label>
+                <input type="text" id="direccion" required>
+
+                <button type="submit">Guardar</button>
+                <button type="button" id="cancelar" style="display:none;">Cancelar edición</button>
+            </form>
+
+            <br><br>
+
+            <!-- TABLA -->
+            <table border="1" width="100%">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Edad</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer id="footer">
+        <div class="container">
+            <h2 class="subheader">Berserk</h2>
+            <p>Enviame un mensaje en mis redes sociales XD</p>
+            <ul id="networks">
+                <li><img src="img/twitter.png" /></li>
+                <li><img src="img/facebook.png" /></li>
+                <li><img src="img/instagram.png" /></li>
+            </ul>
+        </div>
+
 
 
     <div class="clearfix"></div>
