@@ -23,10 +23,9 @@ var urlsToCache = [
     './img/64.png',
     './img/32.png',
     './img/16.png'
-    ];
+];
 
-    // Evento install
-// Instalación del service Worker y guarda en cache los recursos estáticos
+// Evento install
 self.addEventListener('install', e => {
     e.waitUntil(
         caches.open(CACHE_NAME)
@@ -37,11 +36,10 @@ self.addEventListener('install', e => {
                     });
             })
             .catch(err => console.log('No se ha registrado el cache', err))
-    );
+    );
 });
 
 // Evento activate
-// Que la app funcione sin conexión
 self.addEventListener('activate', e => {
     const cacheWhitelist = [CACHE_NAME];
 
@@ -50,18 +48,13 @@ self.addEventListener('activate', e => {
             .then(cacheNames => {
                 return Promise.all(
                     cacheNames.map(cacheName => {
-
                         if (cacheWhitelist.indexOf(cacheName) === -1) {
-                            //Borrar elementos que no se necesitan
                             return caches.delete(cacheName);
                         }
                     })
                 );
             })
-            .then(() => {
-                //Activa cache
-                self.clients.claim();
-            })
+            .then(() => self.clients.claim())
     );
 });
 
@@ -71,10 +64,45 @@ self.addEventListener('fetch', e => {
         caches.match(e.request)
             .then(res => {
                 if (res) {
-                    //Devuelve datos desde cache
                     return res;
-                }   
+                }
                 return fetch(e.request);
             })
     );
+});
+
+
+// ----------------------------------------------------
+// 🔔 NOTIFICACIONES PUSH (CLIENTE → CLIENTE)
+// ----------------------------------------------------
+
+// Permite que la notificación abra tu PWA cuando se toca
+self.addEventListener("notificationclick", event => {
+    event.notification.close();
+
+    event.waitUntil(
+        clients.matchAll({ type: "window", includeUncontrolled: true })
+            .then(clientList => {
+                // Si ya hay una pestaña abierta, la enfocamos
+                for (const client of clientList) {
+                    if (client.url.includes("/") && "focus" in client) {
+                        return client.focus();
+                    }
+                }
+                // Si no hay pestañas, abrimos una nueva
+                return clients.openWindow("./");
+            })
+    );
+});
+
+// (Opcional) Manera limpia de mostrar notificaciones desde el SW
+self.addEventListener("push", event => {
+    const data = event.data ? event.data.json() : {};
+
+    self.registration.showNotification(data.title || "Nueva notificación", {
+        body: data.body || "",
+        icon: data.icon || "img/16.png",
+        badge: "img/16.png",
+        vibrate: [200, 100, 200]
+    });
 });

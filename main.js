@@ -1,30 +1,66 @@
-//service worker
+// ------------------------------
+// SERVICE WORKER
+// ------------------------------
 if ('serviceWorker' in navigator) {
     console.log('Puedes usar los serviceworker del navegador');
 
     navigator.serviceWorker.register('./sw.js')
         .then(res => console.log('service worker registrado correctamente', res))
         .catch(err => console.log('service worker no se ha podido registrar', err));
-}else {
+} else {
     console.log('No puedes usar los serviceworker del navegador');
 }
 
-//scroll suavizado
+// ------------------------------
+// SCROLL SUAVIZADO
+// ------------------------------
 $(document).ready(function(){
     $("#menu a").click(function(e){
         e.preventDefault();
         $("html, body").animate({
             scrollTop: $($(this).attr('href')).offset().top
         });
-        return false;
     });
 });
 
+// ------------------------------
+// PEDIR PERMISO PARA NOTIFICACIONES
+// ------------------------------
+async function solicitarPermisoNotificaciones() {
+    if (!("Notification" in window)) {
+        console.log("Tu navegador no soporta notificaciones");
+        return;
+    }
+    let permiso = await Notification.requestPermission();
+    console.log("Permiso:", permiso);
+}
+solicitarPermisoNotificaciones();
 
+// ------------------------------
+// FUNCIÓN PARA MOSTRAR NOTIFICACIÓN
+// ------------------------------
+function mostrarNotificacion(titulo, mensaje) {
+    if (Notification.permission === "granted") {
+        navigator.serviceWorker.getRegistration().then(reg => {
+            if (reg) {
+                reg.showNotification(titulo, {
+                    body: mensaje,
+                    icon: "img/16.png",
+                    vibrate: [200, 100, 200],
+                    badge: "img/16.png"
+                });
+            }
+        });
+    }
+}
 
+// ------------------------------
+// FIREBASE v12
+// ------------------------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { 
-    getFirestore, collection, addDoc, updateDoc, deleteDoc, getDoc, onSnapshot, doc 
+    getFirestore, collection, addDoc, updateDoc, deleteDoc,
+    getDoc, onSnapshot, doc 
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -40,12 +76,28 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // ------------------------------
-// LISTAR USUARIOS
+// LISTAR USUARIOS + DETECTAR NUEVOS
 // ------------------------------
+let primeraCarga = true; // evita notificación inicial
+
 function cargarUsuarios() {
     const tabla = document.getElementById("tabla");
 
     onSnapshot(collection(db, "crudpwa"), (snapshot) => {
+        // Detectar nuevos registros SOLO después de la primera carga
+        if (!primeraCarga) {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === "added") {
+                    const user = change.doc.data();
+                    mostrarNotificacion(
+                        "Nuevo registro agregado",
+                        `Usuario: ${user.nombre}`
+                    );
+                }
+            });
+        }
+
+        // Renderizar tabla
         tabla.innerHTML = "";
         snapshot.forEach(docSnap => {
             const user = docSnap.data();
@@ -62,6 +114,8 @@ function cargarUsuarios() {
                     </td>
                 </tr>`;
         });
+
+        primeraCarga = false;
     });
 }
 cargarUsuarios();
