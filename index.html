@@ -208,17 +208,6 @@
         </div>
     </div>
 
-    <footer id="footer">
-        <div class="container">
-            <h2 class="subheader">Berserk</h2>
-            <p>Enviame un mensaje en mis redes sociales XD</p>
-            <ul id="networks">
-                <li><img src="img/twitter.png" /></li>
-                <li><img src="img/facebook.png" /></li>
-                <li><img src="img/instagram.png" /></li>
-            </ul>
-        </div>
-
 
 
     <div class="clearfix"></div>
@@ -249,21 +238,6 @@
         </div>
     </footer>
 
-    <button id="sendPush" style="padding:10px 20px; margin:20px; font-size:18px;">
-    Enviar Notificación Push
-</button>
-
-    <script>
-document.getElementById("sendPush").addEventListener("click", async () => {
-    await OneSignal.sendSelfNotification(
-        "Berserk Fan Page",
-        "¡Hola! Esta es tu notificación push de prueba 🎉",
-        "https://tu-sitio.com",
-        "https://i.imgur.com/5ZQJpQF.png"
-    );
-    alert("Notificación enviada (si tienes permisos activados).");
-});
-</script>
 
 </body>
 
