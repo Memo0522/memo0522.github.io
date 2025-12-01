@@ -9,6 +9,9 @@
     "start_url": "./index.html?utm_source=web_app_manifest",
     "scope": "./",
     "lang": "es-ES",
+
+    "gcm_sender_id": "103953800507",
+
     "icons": [
         {
             "src": "./img/1024.png",

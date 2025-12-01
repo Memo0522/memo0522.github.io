@@ -51,6 +51,21 @@
                 </ul>
             </div> <!--end menu-->
         </div><!--end container-->
+
+            <!-- SOLO main.js con ES MODULE -->
+    <script type="module" src="main.js"></script>
+
+    <!-- OneSignal Web Push -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function(OneSignal) {
+            await OneSignal.init({
+                appId: "82d70fd9-076d-4e75-abac-d098854f2983",
+            });
+        });
+    </script>
+
     </header>
     <div class="clearfix"></div>
 
@@ -233,6 +248,23 @@
             <div class="clearfix"></div>
         </div>
     </footer>
+
+    <button id="sendPush" style="padding:10px 20px; margin:20px; font-size:18px;">
+    Enviar Notificación Push
+</button>
+
+    <script>
+document.getElementById("sendPush").addEventListener("click", async () => {
+    await OneSignal.sendSelfNotification(
+        "Berserk Fan Page",
+        "¡Hola! Esta es tu notificación push de prueba 🎉",
+        "https://tu-sitio.com",
+        "https://i.imgur.com/5ZQJpQF.png"
+    );
+    alert("Notificación enviada (si tienes permisos activados).");
+});
+</script>
+
 </body>
 
 </html>
